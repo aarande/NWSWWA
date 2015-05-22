@@ -4,8 +4,8 @@
 # Stand Library Imports
 import datetime
 
-from pyiem.nws.product import TextProduct, TextProductException
-from pyiem.nws.ugc import ugcs_to_text
+from mwswwa.nws.product import TextProduct, TextProductException
+from mwswwa.nws.ugc import ugcs_to_text
 
 def do_sql_hvtec(txn, segment):
     ''' Process the HVTEC in this product '''

@@ -8,7 +8,7 @@ import math
 from shapely.geometry import Polygon, Point
 
 # Local stuff
-from pyiem.nws.product import TextProduct
+from mwswwa.nws.product import TextProduct
 
 O_LINE1 = re.compile("SIGMET (?P<name>[A-Z]*) (?P<num>[0-9]*) VALID (?P<sts>[0-9]{6})/(?P<ets>[0-9]{6})")
 O_PAIRS = re.compile("(?P<lat>[NS][0-9]{4}) (?P<lon>[EW][0-9]{5})")
@@ -350,7 +350,7 @@ class SIGMETProduct( TextProduct ):
     def draw(self):
         ''' For debugging, draw the polygons!'''
         from descartes.patch import PolygonPatch
-        from pyiem.plot import MapPlot
+        from mwswwa.plot import MapPlot
         for sig in self.sigmets:
             m = MapPlot(sector='conus')
             x,y = m.map(sig.geom.exterior.xy[0], sig.geom.exterior.xy[1])

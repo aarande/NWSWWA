@@ -2,7 +2,7 @@ import os
 import datetime
 import pytz
 import unittest
-from pyiem.nws.products.cli import parser as cliparser
+from mwswwa.nws.products.cli import parser as cliparser
 
 def get_file(name):
     ''' Helper function to get the text file contents '''

@@ -2,7 +2,7 @@ import re
 import datetime
 import pytz
 
-from pyiem import reference
+from mwswwa import reference
 
 MAG_UNITS = re.compile(r"(ACRE|INCHES|INCH|MILE|MPH|KTS|U|FT|F|E|M|TRACE)")
 

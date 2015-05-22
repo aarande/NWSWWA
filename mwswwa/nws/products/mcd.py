@@ -5,7 +5,7 @@
 import re
 import cgi
 
-from pyiem.nws.product import TextProduct
+from mwswwa.nws.product import TextProduct
 from shapely.geometry import Polygon as ShapelyPolygon
 from shapely.geometry import MultiPolygon
 

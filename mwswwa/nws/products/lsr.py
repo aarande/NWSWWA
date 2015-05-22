@@ -13,9 +13,9 @@ SPLITTER = re.compile(r"(^[0-9].+?\n^[0-9].+?\n)((?:.*?\n)+?)(?=^[0-9]|$)",
                       re.MULTILINE)
 
 
-from pyiem.nws.product import TextProduct, TextProductException
-from pyiem import reference
-from pyiem.nws.lsr import LSR
+from mwswwa.nws.product import TextProduct, TextProductException
+from mwswwa import reference
+from mwswwa.nws.lsr import LSR
 
 class LSRProductException(TextProductException):
     ''' Something we can raise when bad things happen! '''

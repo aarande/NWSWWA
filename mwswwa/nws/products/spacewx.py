@@ -1,6 +1,6 @@
 # A parser for stuff that the Space Weather Center issues
 
-import pyiem.nws.product as product
+import mwswwa.nws.product as product
 
 class SpaceWxProduct( product.TextProduct ):
     ''' Class for parsing and representing Space Wx Products '''

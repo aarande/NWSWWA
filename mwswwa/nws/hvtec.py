@@ -1,8 +1,8 @@
 
 import re
 import datetime
-from pyiem import iemtz
-from pyiem.nws.nwsli import NWSLI
+from mwswwa import iemtz
+from mwswwa.nws.nwsli import NWSLI
 
 #         nwsli        sev         cause      
 _re = "(/([A-Z0-9]{5})\.([N0123U])\.([A-Z]{2})\.([0-9TZ]+)\.([0-9TZ]+)\.([0-9TZ]+)\.([A-Z]{2})/)"

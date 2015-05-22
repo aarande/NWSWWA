@@ -11,8 +11,8 @@ import pytz
 from shapely.geometry import Polygon, MultiPolygon
 from shapely.wkt import dumps
 
-from pyiem import reference
-from pyiem.nws import ugc, vtec, hvtec
+from mwswwa import reference
+from mwswwa.nws import ugc, vtec, hvtec
 
 
 AFOSRE = re.compile(r"^([A-Z0-9\s]{6})$", re.M)

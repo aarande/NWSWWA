@@ -12,11 +12,11 @@ Unfortunately, there is not much documentation of this format and the feed of
 this data contains a bunch of formatting errors.
 
 """
-import pyiem.nws.product as product
+import mwswwa.nws.product as product
 import datetime
 import re
 import math
-from pyiem.datatypes import distance
+from mwswwa.datatypes import distance
 
 OV_LATLON = re.compile("\s?(?P<lat>[0-9]{3,4}[NS])\s?(?P<lon>[0-9]{3,5}[EW])")
 OV_LOCDIR = re.compile(".*?(?P<loc>[A-Z0-9]{3,4})\s?(?P<dir>[0-9]{3})(?P<dist>[0-9]{3})")

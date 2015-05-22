@@ -2,7 +2,7 @@ import os
 import datetime
 import pytz
 import unittest
-from pyiem.nws.products.pirep import parser as pirepparser
+from mwswwa.nws.products.pirep import parser as pirepparser
 
 def get_file(name):
     ''' Helper function to get the text file contents '''

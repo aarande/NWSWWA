@@ -1,6 +1,6 @@
 import re
 
-from pyiem.nws.product import TextProduct
+from mwswwa.nws.product import TextProduct
 
 class HWOException(Exception):
     ''' Exception '''

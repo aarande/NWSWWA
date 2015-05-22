@@ -1,6 +1,6 @@
 import re
 
-from pyiem.nws.product import TextProduct, TextProductException, WMO_RE, AFOSRE
+from mwswwa.nws.product import TextProduct, TextProductException, WMO_RE, AFOSRE
 import spacewx
 import cli
 import hwo
