@@ -7,7 +7,7 @@ from nwswwa import iemtz
 STR1 = "DCZ001-170200-"
 STR2 = "DCZ001-MDZ004>007-009>011-013-014-016>018-VAZ036>042-050>057-170200-"
 
-class TestObservation(unittest.TestCase):
+class TestUGC(unittest.TestCase):
     
     def test_totextstr(self):
         """ See if we can generate a proper string from a UGCS """

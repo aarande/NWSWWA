@@ -12,7 +12,7 @@ def get_file(name):
     fn = "%s/../../../data/product_examples/%s" % (basedir, name)
     return open(fn).read()
 
-class TestObservation(unittest.TestCase):
+class TestSPC(unittest.TestCase):
     
     def test_141022_newcats(self):
         """ Make sure we can parse the new categories """

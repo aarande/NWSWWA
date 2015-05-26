@@ -7,7 +7,7 @@ import pytz
 from nwswwa.nws import product, ugc
 from nwswwa.nws.product import WMO_RE
 from nwswwa.nws.product import TextProductException
-from nwswwa.nws.products import parser as productparser
+from nwswwa import parse as productparser
 
 
 def get_file(name):

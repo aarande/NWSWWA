@@ -4,7 +4,7 @@ import pytz
 
 from nwswwa.nws import vtec
 
-class TestObservation(unittest.TestCase):
+class TestVtec(unittest.TestCase):
     
     def test_getID(self):
         ''' check that getID() works as we expect '''
