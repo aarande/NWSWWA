@@ -1,10 +1,6 @@
 import re
 
 from nwswwa.nws.product import TextProduct, TextProductException, WMO_RE, AFOSRE
-import spacewx
-import cli
-import hwo
-import lsr
 import mcd
 import nhc
     

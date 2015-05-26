@@ -1,7 +1,7 @@
 import unittest
 
-from nwswwa.nws.products.lsr import _mylowercase
-from nwswwa.nws.products import lsr
+from nwswwa.nws.lsr import _mylowercase
+from nwswwa.nws import lsr
 
 class TestLSR(unittest.TestCase):
     
