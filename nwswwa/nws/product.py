@@ -12,7 +12,7 @@ from shapely.geometry import Polygon, MultiPolygon
 from shapely.wkt import dumps
 
 from nwswwa import reference
-from nwswwa.nws import ugc, vtec, hvtec
+import ugc, vtec, hvtec
 
 
 AFOSRE = re.compile(r"^([A-Z0-9\s]{6})$", re.M)

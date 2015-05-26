@@ -1,9 +1,7 @@
-import re
-
 from nwswwa.nws.product import TextProduct, TextProductException, WMO_RE, AFOSRE
-import mcd
-import nhc
-    
+from nwswwa.nws import nhc, mcd
+
+
 def parser(text , utcnow=None, ugc_provider=None, nwsli_provider=None):
     """Omnibus parser of NWS Text Data
     
