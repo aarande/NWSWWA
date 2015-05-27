@@ -44,21 +44,6 @@ class MCDProduct(TextProduct):
             return None
         return int(tokens[0])
 
-    def tweet(self):
-        ''' Return twitter message '''
-        charsleft = 140 - 22  # default safe 22 for t.co shortening
-        if self.afos == 'SWOMCD':
-            center = 'SPC'
-        else:
-            center = 'WPC'
-        prob_extra = ""
-        if self.watch_prob is not None:
-            prob_extra = " [watch prob: %.0f%%]" % (self.watch_prob,)
-        attempt = "#%s issues %s %s%s: %s " % (center, self.afos[3:],
-                                               self.discussion_num, prob_extra,
-                                               self.areas_affected)
-        return "%s%s" % (attempt[:charsleft], self.get_url())
-
     def get_url(self):
         ''' Return the URL for SPC's website '''
         if self.afos == 'SWOMCD':
@@ -77,31 +62,6 @@ class MCDProduct(TextProduct):
             if section.strip().find("AREAS AFFECTED...") == 0:
                 return section[17:].replace("\n", " ")
         return None
-
-    def get_jabbers(self, uri):
-        ''' Return plain text and html variants for a Jabber msg '''
-        # convert htmlentities
-        spcuri = cgi.escape(self.get_url())
-        center = 'Storm Prediction Center'
-        pextra = ''
-        if self.afos == 'FFGMPD':
-            center = 'Weather Prediction Center'
-            pextra = 'Precipitation '
-        prob_extra = ""
-        if self.watch_prob is not None:
-            prob_extra = "[watch probability: %.0f%%] " % (self.watch_prob,)
-        plain = "%s issues Mesoscale %sDiscussion #%s%s %s" % (center, pextra,
-                                                               self.discussion_num,
-                                                               prob_extra,
-                                                               spcuri)
-        html = ('<p>%s issues <a href="%s">'
-                + 'Mesoscale %sDiscussion #%s</a> %s'
-                + '(<a href="%s?pid=%s">View text</a>)</p>') % (center, spcuri, pextra,
-                                                                self.discussion_num,
-                                                                prob_extra, uri,
-                                                                self.get_product_id()
-                                                                )
-        return plain, html
 
     def parse_attn_rfc(self):
         ''' FIgure out which RFCs this product is seeking attention '''
@@ -154,14 +114,6 @@ class MCDProduct(TextProduct):
         for row in txn:
             cwsu.append(row[0])
         return cwsu
-
-    def database_save(self, txn):
-        ''' Save this product to the database '''
-        giswkt = "SRID=4326;%s" % (MultiPolygon([self.geometry]).wkt,)
-        sql = """INSERT into text_products(product, product_id, geom) 
-          values (%s, %s, %s)"""
-        args = (self.text, self.get_product_id(), giswkt)
-        txn.execute(sql, args)
 
 
 def parser(text, utcnow=None, ugc_provider=None, nwsli_provider=None):

@@ -12,21 +12,6 @@ SPLITTER = re.compile(r"(^[0-9].+?\n^[0-9].+?\n)((?:.*?\n)+?)(?=^[0-9]|$)",
 
 MAG_UNITS = re.compile(r"(ACRE|INCHES|INCH|MILE|MPH|KTS|U|FT|F|E|M|TRACE)")
 
-
-def _mylowercase(text):
-    ''' Specialized lowercase function '''
-    tokens = text.split()
-    for i, t in enumerate(tokens):
-        if len(t) > 3:
-            tokens[i] = t.title()
-        elif t in ['N', 'NNE', 'NNW', 'NE',
-                   'E', 'ENE', 'ESE', 'SE',
-                   'S', 'SSE', 'SSW', 'SW',
-                   'W', 'WSW', 'WNW', 'NW']:
-            continue
-    return " ".join(tokens)
-
-
 class LSR(object):
     ''' Represents a single Local Storm Report within the LSRProduct '''
 
@@ -73,30 +58,6 @@ class LSR(object):
         ''' Return the typecode used in the database for this event type '''
         return reference.lsr_events.get(self.typetext, None)
 
-    def sql(self, txn):
-        ''' Provided a database transaction object, persist this LSR '''
-        table = "lsrs_%s" % (self.utcvalid.year,)
-        wkt = "SRID=4326;%s" % (self.geometry.wkt,)
-        sql = """INSERT into """ + table + """ (valid, type, magnitude, city,
-               county, state, source, remark, geom, wfo, typetext) 
-               values (%s, %s, %s, %s, %s, %s, 
-               %s, %s, %s, %s, %s)"""
-        args = (self.utcvalid,
-                self.get_dbtype(),
-                self.magnitude_f,
-                self.city, self.county, self.state,
-                self.source, self.remark, wkt, self.wfo, self.typetext)
-        txn.execute(sql, args)
-
-    def tweet(self):
-        ''' return a tweet text '''
-        msg = 'At %s, %s [%s Co, %s] %s reports %s #%s' % (
-            self.valid.strftime('%-I:%M %p'),
-            _mylowercase(self.city),
-            self.county.title(), self.state,
-            self.source, self.mag_string(),
-            self.wfo)
-        return msg
 
     def assign_timezone(self, tz, z):
         ''' retroactive assignment of timezone, so to improve attrs '''
@@ -166,64 +127,6 @@ class LSRProduct(TextProduct):
                                 min_time.strftime("%Y%m%d%H%M"),
                                 max_time.strftime("%Y%m%d%H%M"))
 
-    def get_jabbers(self, uri):
-        ''' return a text and html variant for Jabber stuff '''
-        res = []
-        wfo = self.source[1:]
-        url = self.get_url(uri)
-
-        for mylsr in self.lsrs:
-            if mylsr.duplicate:
-                continue
-            time_fmt = "%-I:%M %p %Z"
-            url = "%s#%s/%s/%s" % (uri, mylsr.wfo,
-                                   mylsr.utcvalid.strftime("%Y%m%d%H%M"),
-                                   mylsr.utcvalid.strftime("%Y%m%d%H%M"))
-            if mylsr.valid.day != self.utcnow.day:
-                time_fmt = "%-d %b, %-I:%M %p %Z"
-            xtra = {
-                'product_id': self.get_product_id(),
-                'channels': "LSR%s,LSR.ALL,LSR.%s" % (mylsr.wfo,
-                                                      mylsr.typetext.replace(" ", "_")),
-                'geometry': 'POINT(%s %s)' % (mylsr.get_lon(), mylsr.get_lat()),
-                'ptype': mylsr.get_dbtype(),
-                'valid': mylsr.utcvalid.strftime("%Y%m%dT%H:%M:00"),
-                'category': 'LSR',
-                'twitter': "%s %s" % (mylsr.tweet(), url),
-                'lat': str(mylsr.get_lat()),
-                'long': str(mylsr.get_lon()),
-            }
-            html = ("<p>%s [%s Co, %s] %s <a href=\"%s\">reports %s</a> at "
-                    + "%s -- %s</p>") % (
-                       _mylowercase(mylsr.city), mylsr.county.title(), mylsr.state, mylsr.source,
-                       url, mylsr.mag_string(),
-                       mylsr.valid.strftime(time_fmt), mylsr.remark)
-
-            plain = "%s [%s Co, %s] %s reports %s at %s -- %s %s" % (
-                _mylowercase(mylsr.city), mylsr.county.title(),
-                mylsr.state, mylsr.source,
-                mylsr.mag_string(),
-                mylsr.valid.strftime(time_fmt), mylsr.remark, url)
-            res.append([plain, html, xtra])
-
-        if self.is_summary():
-            extra_text = ""
-            if self.duplicates > 0:
-                extra_text = (", %s out of %s reports were previously "
-                              + "sent and not repeated here.") % (self.duplicates,
-                                                                  len(self.lsrs))
-            text = "%s: %s issues Summary Local Storm Report %s %s" % (
-                wfo, wfo, extra_text, url)
-
-            html = ("<p>%s issues "
-                    + "<a href='%s'>Summary Local Storm Report</a>%s</p>") % (
-                       wfo, url, extra_text)
-            xtra = {
-                'product_id': self.get_product_id(),
-                'channels': 'LSR%s' % (wfo,),
-            }
-            res.append([text, html, xtra])
-        return res
 
 
 def _mylowercase(text):

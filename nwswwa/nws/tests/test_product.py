@@ -37,22 +37,12 @@ class TestProduct(unittest.TestCase):
         """ Parse a RFD """
         tp = productparser(get_file('RFDOAX.txt'))
         self.assertEqual(tp.get_channels()[0], 'RFDOAX')
-        j = tp.get_jabbers('http://localhost')
-        self.assertEqual(j[0][0], ('OAX issues Grassland Fire Danger '
-                                   + '(RFD) http://localhost?pid=201501191010-KOAX-FNUS63-RFDOAX'))
 
     def test_140710_wmoheader_fail(self):
         """ Make sure COR in WMO header does not trip us up"""
         tp = product.TextProduct(get_file('MANANN.txt'))
         self.assertEqual(tp.afos, 'MANANN')
         self.assertTrue(tp.is_correction())
-
-    def test_now_jabber(self):
-        ''' See if we can process a NOW and get the jabber result '''
-        tp = product.TextProduct(get_file('NOWDMX.txt'))
-        j = tp.get_jabbers("http://localhost")
-        self.assertEqual(j[0][0], ("DMX issues Short-term Forecast (NOW) "
-                                   + "http://localhost?pid=201003041442-KDMX-FPUS73-NOWDMX"))
 
     def test_nomnd_with_timestamp(self):
         ''' Make sure we process timestamps correctly when there is no MND'''

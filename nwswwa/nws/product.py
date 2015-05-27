@@ -332,30 +332,6 @@ class TextProduct(object):
         """Returns boolean on if this product is some form of correction """
         return self.bbb is not None
 
-    def get_channels(self):
-        """ Return a list of channels """
-        return [self.afos, ]
-
-    def get_jabbers(self, uri, uri2=None):
-        ''' Return a list of triples representing what we should send to 
-        our precious jabber routing bot, this should be overridden by the
-        specialty parsers '''
-        res = []
-        url = "%s?pid=%s" % (uri, self.get_product_id())
-        plain = "%s issues %s %s" % (self.source[1:],
-                                     reference.prodDefinitions.get(self.afos[:3],
-                                                                   self.afos[:3]), url)
-        html = '<p>%s issues <a href="%s">%s</a></p>' % (self.source[1:], url,
-                                                         reference.prodDefinitions.get(self.afos[:3],
-                                                                                       self.afos[:3]))
-        xtra = {
-            'channels': ",".join(self.get_channels()),
-            'product_id': self.get_product_id(),
-            'twitter': plain
-        }
-        res.append((plain, html, xtra))
-        return res
-
     def get_signature(self):
         """ Find the signature at the bottom of the page 
         """
