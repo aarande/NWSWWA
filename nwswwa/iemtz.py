@@ -22,6 +22,7 @@ class UTC(tzinfo):
     def dst(self, dt):
         return ZERO
 
+
 utc = UTC()
 
 # A class building tzinfo objects for fixed-offset time zones.
@@ -32,7 +33,7 @@ class FixedOffset(tzinfo):
     """Fixed offset in minutes east from UTC."""
 
     def __init__(self, offset, name):
-        self.__offset = timedelta(minutes = offset)
+        self.__offset = timedelta(minutes=offset)
         self.__name = name
 
     def utcoffset(self, dt):
@@ -48,16 +49,16 @@ class FixedOffset(tzinfo):
 
 import time as _time
 
-STDOFFSET = timedelta(seconds = -_time.timezone)
+STDOFFSET = timedelta(seconds=-_time.timezone)
 if _time.daylight:
-    DSTOFFSET = timedelta(seconds = -_time.altzone)
+    DSTOFFSET = timedelta(seconds=-_time.altzone)
 else:
     DSTOFFSET = STDOFFSET
 
 DSTDIFF = DSTOFFSET - STDOFFSET
 
-class LocalTimezone(tzinfo):
 
+class LocalTimezone(tzinfo):
     def utcoffset(self, dt):
         if self._isdst(dt):
             return DSTOFFSET
@@ -81,6 +82,7 @@ class LocalTimezone(tzinfo):
         tt = _time.localtime(stamp)
         return tt.tm_isdst > 0
 
+
 Local = LocalTimezone()
 
 
@@ -91,7 +93,6 @@ def first_sunday_on_or_after(dt):
     if days_to_go:
         dt += timedelta(days_to_go)
     return dt
-
 
 # US DST Rules
 #
@@ -118,8 +119,8 @@ DSTEND_1987_2006 = datetime(1, 10, 25, 1)
 DSTSTART_1967_1986 = datetime(1, 4, 24, 2)
 DSTEND_1967_1986 = DSTEND_1987_2006
 
-class USTimeZone(tzinfo):
 
+class USTimeZone(tzinfo):
     def __init__(self, hours, reprname, stdname, dstname):
         self.stdoffset = timedelta(hours=hours)
         self.reprname = reprname
@@ -168,9 +169,10 @@ class USTimeZone(tzinfo):
         else:
             return ZERO
 
-Eastern  = USTimeZone(-5, "Eastern",  "EST", "EDT")
-Central  = USTimeZone(-6, "Central",  "CST", "CDT")
+
+Eastern = USTimeZone(-5, "Eastern", "EST", "EDT")
+Central = USTimeZone(-6, "Central", "CST", "CDT")
 Mountain = USTimeZone(-7, "Mountain", "MST", "MDT")
-Pacific  = USTimeZone(-8, "Pacific",  "PST", "PDT")
+Pacific = USTimeZone(-8, "Pacific", "PST", "PDT")
 CentralDaylight = FixedOffset(-300, "CST")
 CentralStandard = FixedOffset(-360, "CST")

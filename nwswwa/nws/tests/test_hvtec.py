@@ -1,11 +1,9 @@
 import unittest
-import datetime
 
 from nwswwa.nws import hvtec
-from nwswwa import iemtz
+
 
 class TestObservation(unittest.TestCase):
-    
     def test_empty(self):
         """ check empty HVTEC Parsing """
         v = hvtec.parse("/00000.0.ER.000000T0000Z.000000T0000Z.000000T0000Z.OO/")

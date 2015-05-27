@@ -1,6 +1,8 @@
 import re
 import datetime
+
 import pytz
+
 
 # from product import TextProduct, TextProductException
 # from ugc import ugcs_to_text
@@ -296,7 +298,6 @@ class VTEC:
 
     def product_string(self):
         return "%s %s" % (self.get_action_string(), self.get_ps_string())
-
 
 # class VTECProductException(TextProductException):
 #     ''' Something we can raise when bad things happen! '''
