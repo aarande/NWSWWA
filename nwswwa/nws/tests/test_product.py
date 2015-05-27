@@ -33,11 +33,6 @@ class TestProduct(unittest.TestCase):
         for a in ar:
             self.assertTrue(WMO_RE.match(a) is not None)
 
-    def test_RFD(self):
-        """ Parse a RFD """
-        tp = productparser(get_file('RFDOAX.txt'))
-        self.assertEqual(tp.get_channels()[0], 'RFDOAX')
-
     def test_140710_wmoheader_fail(self):
         """ Make sure COR in WMO header does not trip us up"""
         tp = product.TextProduct(get_file('MANANN.txt'))
